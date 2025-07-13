@@ -1,12 +1,22 @@
-# React + Vite
+一，功能
+1，多用户注册，登录（同时登录，同时下单如何处理（异步 ））
+2，盲盒管理
+3，盲盒抽取
+4，盲盒订单管理
+5，盲盒列表查看
+6，盲盒详情查看
+7，玩家秀（社区）
+8，盲盒搜索
+9，其他
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+二，规范
+前段
+1，前后端分离
+2，前端采用spa形式，vite+react+TailwindCSS
+3，小部件
+4，基于github管理
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+后端
+1，分层架构
+2，RESTful风格api设计
+3，sqlite数据库

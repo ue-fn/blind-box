@@ -43,3 +43,83 @@
 .read-the-docs {
   color: #888;
 }
+
+.goods-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.goods-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  background: #fff;
+  transition: box-shadow 0.2s;
+  min-width: 0;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.goods-card:hover {
+  box-shadow: 0 2px 8px rgba(100, 108, 255, 0.15);
+}
+
+.goods-card img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.goods-card .goods-name {
+  margin-top: 8px;
+}
+
+.goods-card .goods-price {
+  color: red;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.goods-card .goods-stock {
+  font-size: 12px;
+  color: #888;
+}
+
+.goods-modal-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.goods-modal {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  min-width: 300px;
+  min-height: 200px;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.goods-modal img {
+  width: 120px;
+  border-radius: 8px;
+}
+
+.goods-modal .close-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
