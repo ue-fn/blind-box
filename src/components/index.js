@@ -1,0 +1,11 @@
+// 组件统一导出文件
+export { default as Login } from './Login'
+export { default as Register } from './Register'
+export { default as Home } from './Home'
+export { default as Goods } from './Goods'
+export { default as AdminGoods } from './AdminGoods'
+export { default as GoodEditModal } from './GoodEditModal'
+export { default as Community } from './Community'
+export { default as Profile } from './Profile'
+export { default as NavButtons } from './NavButtons'
+export { default as AppContent } from './AppContent'
