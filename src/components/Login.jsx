@@ -62,7 +62,7 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
   }
   
   return (
-    <form onSubmit={handleLogin} style={{ margin: 20 }}>
+    <form onSubmit={handleLogin} style={{ margin: '20px auto', width: '100%', maxWidth: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
       <h2>登录</h2>
       <div>
         <input

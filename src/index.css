@@ -29,7 +29,7 @@ body {
   text-align: center;
   min-width: 320px;
   min-height: 100vh;
-  background: url('./assets/bg_1.jpg') no-repeat center center fixed;
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('./assets/bg_1.jpg') no-repeat center center fixed;
   background-size: 100% auto;
   animation: scroll-bg 110s linear infinite alternate;
 }

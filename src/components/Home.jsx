@@ -10,8 +10,8 @@ function Home() {
   const [count, setCount] = useState(0)
   
   return (
-    <>
-      <div>首页</div>
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <h2>首页</h2>
       <div>
         <a href="https://vite.dev" target="_self">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -31,7 +31,7 @@ function Home() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
+    </div>
   )
 }
 

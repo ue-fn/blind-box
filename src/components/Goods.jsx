@@ -40,19 +40,33 @@ function Goods() {
       }
 
       // 购买盲盒
-      const purchaseResponse = await axios.post('/blind-box/purchase', {
-        userId: parseInt(userId),
-        boxId
+      const purchaseResponse = await fetch('http://localhost:7001/blind-box/purchase', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: parseInt(userId),
+          boxId
+        })
       })
-
+      const purchaseData = await purchaseResponse.json()
+      console.log('已购买', purchaseData, purchaseData.data.orderId)
       // 获取订单ID并立即揭晓
-      const orderId = purchaseResponse.data.orderId
-      const revealResponse = await axios.post('/blind-box/reveal', {
-        orderId
+      const orderId = purchaseData.data.orderId
+      const revealResponse = await fetch('http://localhost:7001/blind-box/reveal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          orderId: orderId
+        })
       })
-
+      const revealData = await revealResponse.json()
+      console.log('揭晓结果:', revealData)
       // 显示结果
-      setResultModal(revealResponse.data)
+      setResultModal(revealData)
       // 刷新盲盒列表
       fetchBlindBoxes()
     } catch (error) {

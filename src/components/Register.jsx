@@ -95,7 +95,7 @@ function Register({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) 
   }
   
   return (
-    <form onSubmit={handleRegister} style={{ margin: 20 }}>
+    <form onSubmit={handleRegister} style={{ margin: '20px auto', width: '100%', maxWidth: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
       <h2>注册</h2>
       <div style={{ display: 'flex', gap: 10, margin: '10px 0' }}>
         {avatarList.map((img, idx) => (
