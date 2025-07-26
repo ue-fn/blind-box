@@ -27,7 +27,7 @@ function AppContent() {
     const savedAvatar = localStorage.getItem('currentAvatar')
     return savedAvatar || avatarList[0]
   })
-  const [isAdmin, setIsAdmin] = useState(() => localStorage.getItem('isAdmin') === 'true')
+  const [isAdmin, setIsAdmin] = useState(() => parseInt(localStorage.getItem('userId')) === 11)
 
   // 监听状态变化，更新 localStorage
   useEffect(() => {

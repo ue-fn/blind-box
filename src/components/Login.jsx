@@ -17,7 +17,7 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
     password: '',
   })
   const [avatar, setAvatar] = useState(avatarList ? avatarList[0] : '') // 默认头像
-  
+
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
@@ -31,9 +31,9 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
           password: formData.password,
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         console.log(data)
         // 保存登录状态和用户信息
@@ -60,7 +60,7 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
       }
     }
   }
-  
+
   return (
     <form onSubmit={handleLogin} style={{ margin: '20px auto', width: '100%', maxWidth: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
       <h2>登录</h2>
