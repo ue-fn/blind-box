@@ -1,6 +1,7 @@
-import { useState } from 'react'
-import { goodsList } from '../constants'
+import { useState, useEffect } from 'react'
 import GoodEditModal from './GoodEditModal'
+import '../App.css' // 引入全局样式
+import './AdminGoods.css' // 引入组件样式
 
 /**
  * 管理员商品管理组件
@@ -9,14 +10,56 @@ import GoodEditModal from './GoodEditModal'
  * @returns {JSX.Element} 商品管理界面
  */
 function AdminGoods({ isAdmin }) {
-  const [goods, setGoods] = useState(goodsList)
+  const [goods, setGoods] = useState([])
   const [modalType, setModalType] = useState(null) // 'add' or 'edit'
   const [editGood, setEditGood] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+
+  // 获取盲盒列表
+  useEffect(() => {
+    fetchBlindBoxes()
+  }, [])
+
+  const fetchBlindBoxes = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:7001/blind-box/all')
+      const data = await response.json()
+      console.log('获取盲盒列表:', data)
+      setGoods(data.data)
+    } catch (error) {
+      console.error('获取盲盒列表失败:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (!isAdmin) return <div>无权限</div>
 
   // 删除盲盒
-  const handleDelete = (id) => setGoods(goods.filter(g => g.id !== id))
+  const handleDelete = async (id) => {
+    if (!confirm('确定要删除这个盲盒吗？')) return
+
+    try {
+      setLoading(true)
+      const response = await fetch(`http://localhost:7001/blind-box/delete/${id}`, {
+        method: 'Post'
+      })
+      const data = await response.json()
+      if (data.success) {
+        alert('删除成功')
+        fetchBlindBoxes() // 重新获取列表
+      } else {
+        alert(data.message || '删除失败')
+      }
+    } catch (error) {
+      console.error('删除盲盒失败:', error)
+      alert('删除失败，请稍后重试')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // 打开弹窗
   const openModal = (type, good = null) => {
@@ -25,42 +68,114 @@ function AdminGoods({ isAdmin }) {
   }
 
   // 保存盲盒
-  const handleSave = (good) => {
-    if (modalType === 'add') {
-      setGoods([...goods, { ...good, id: Date.now() }])
-    } else if (modalType === 'edit') {
-      setGoods(goods.map(g => g.id === good.id ? good : g))
+  const handleSave = async (formData) => {
+    try {
+      setLoading(true)
+
+      // 如果是编辑模式，先删除旧盲盒再创建新盲盒
+      if (modalType === 'edit' && formData.id) {
+        // 先删除旧盲盒
+        const deleteResponse = await fetch(`http://localhost:7001/blind-box/delete/${formData.id}`, {
+          method: 'Post'
+        })
+        const deleteData = await deleteResponse.json()
+        if (!deleteData.success) {
+          alert(deleteData.message || '删除旧盲盒失败')
+          return
+        }
+        console.log('删除旧盲盒成功，准备创建新盲盒')
+
+        // 删除id字段，避免创建时传入id
+        delete formData.id
+      }
+
+      // 将formData转换为JSON格式发送创建新盲盒
+      console.log('发送的数据:', JSON.stringify(formData))
+      const response = await fetch('http://localhost:7001/blind-box', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        alert(modalType === 'add' ? '添加成功' : '更新成功')
+        fetchBlindBoxes() // 重新获取列表
+      } else {
+        alert(data.message || (modalType === 'add' ? '添加失败' : '更新失败'))
+      }
+    } catch (error) {
+      console.error('保存盲盒失败:', error)
+      alert('操作失败，请稍后重试')
+    } finally {
+      setLoading(false)
+      setModalType(null)
+      setEditGood(null)
     }
-    setModalType(null)
-    setEditGood(null)
   }
 
+  // 搜索过滤
+  const filteredGoods = goods.filter(box =>
+    box.name.toLowerCase().includes(search.toLowerCase())
+  )
+
   return (
-    <div>
-      <h2>盲盒管理</h2>
-      <button onClick={() => openModal('add')}>新增盲盒</button>
-      <table>
-        <thead>
-          <tr>
-            <th>图片</th><th>名称</th><th>价格</th><th>库存</th><th>描述</th><th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {goods.map(good => (
-            <tr key={good.id}>
-              <td><img src={good.img} alt="" style={{ width: 40 }} /></td>
-              <td>{good.name}</td>
-              <td style={{ color: 'red' }}>￥{good.price}</td>
-              <td>{good.stock}</td>
-              <td>{good.desc}</td>
-              <td>
-                <button onClick={() => openModal('edit', good)}>编辑</button>
-                <button onClick={() => handleDelete(good.id)}>删除</button>
-              </td>
-            </tr>
+    <div className="admin-goods-container">
+      <div className="admin-header">
+        <h2 className="admin-title">盲盒管理</h2>
+        <div className="admin-controls">
+          {/* 搜索栏 */}
+          <input
+            type="text"
+            placeholder="搜索盲盒"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="search-input"
+          />
+          <button
+            onClick={() => openModal('add')}
+            className="add-button"
+          >
+            新增盲盒
+          </button>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="loading-container">
+          <p className="loading-text">加载中...</p>
+        </div>
+      ) : (
+        <div className="goods-list">
+          {filteredGoods.map(box => (
+            <div key={box.id} className="goods-card">
+              <img src={box.imageUrl} alt={box.name} />
+              <div className="goods-name">{box.name}</div>
+              <div className="goods-price">￥{box.price}</div>
+              <div className="goods-stock">库存：{box.stock}</div>
+              <div className="goods-description">{box.description}</div>
+
+              <div className="goods-actions">
+                <button
+                  className="edit-button"
+                  onClick={() => openModal('edit', box)}
+                >
+                  编辑
+                </button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDelete(box.id)}
+                >
+                  删除
+                </button>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      )}
+
       {/* 弹窗 */}
       {modalType && (
         <GoodEditModal

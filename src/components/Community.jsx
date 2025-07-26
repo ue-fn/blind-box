@@ -122,25 +122,28 @@ function Community() {
   const handleLike = async (postId) => {
     try {
       // 先在本地更新点赞状态，提供即时反馈
-      setPosts(prevPosts => {
-        return prevPosts.map(post => {
-          if (post.id === postId) {
-            // 如果已经点赞，则不增加点赞数，只保持状态
-            // 如果未点赞，则增加点赞数并更新状态
-            const newLikes = post.hasLiked ? post.likes : post.likes + 1;
-            return { ...post, hasLiked: true, likes: newLikes };
-          }
-          return post;
-        });
-      });
+
 
       // 然后发送请求到服务器
-      await fetch(`http://127.0.0.1:7001/posts/like`, {
+      const response = await fetch(`http://127.0.0.1:7001/posts/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ postId, userId: parseInt(localStorage.getItem('userId')) })
+      });
+      const data = await response.json();
+      console.log('响应:', data);
+      setPosts(prevPosts => {
+        return prevPosts.map(post => {
+          if (post.id === postId) {
+            // 如果已经点赞，则不增加点赞数，只保持状态
+            // 如果未点赞，则增加点赞数并更新状态
+            const newLikeCount = data.success ? post.likeCount + 1 : post.likeCount;
+            return { ...post, hasLiked: true, likeCount: newLikeCount };
+          }
+          return post;
+        });
       });
       // 不再每次点赞后都刷新所有帖子
       // fetchPosts(); 
