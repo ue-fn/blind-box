@@ -1,0 +1,66 @@
+/* Goods.css */
+/* 商品页面样式 */
+
+/* 页面容器 */
+.goods-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 搜索栏容器 */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* 搜索输入框 */
+.search-input {
+  width: 400px;
+  padding: 12px 20px 12px 45px;
+  border-radius: 30px;
+  border: 2px solid #e0e0e0;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background-color: white;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #646cff;
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.15);
+}
+
+/* 搜索图标 */
+.search-icon {
+  position: absolute;
+  left: calc(50% - 180px);
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 20px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .search-input {
+    width: 300px;
+  }
+  
+  .search-icon {
+    left: calc(50% - 130px);
+  }
+}
+
+@media (max-width: 480px) {
+  .search-input {
+    width: 250px;
+  }
+  
+  .search-icon {
+    left: calc(50% - 105px);
+  }
+}

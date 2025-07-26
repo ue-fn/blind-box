@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 /**
@@ -127,11 +128,140 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
 
   if (!isLogin) {
     return (
-      <>
-        <div>个人中心</div>
-        <button onClick={() => navigate('/login')}>登录</button>
-        <button onClick={() => navigate('/register')}>注册</button>
-      </>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '40px 20px',
+        minHeight: '60vh',
+        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        borderRadius: '12px',
+        margin: '20px auto',
+        maxWidth: '800px',
+        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+      }}>
+        <div style={{
+          marginBottom: '30px',
+          textAlign: 'center'
+        }}>
+          <h2 style={{
+            fontSize: '32px',
+            fontWeight: '600',
+            color: '#333',
+            marginBottom: '15px'
+          }}>个人中心</h2>
+          <p style={{
+            fontSize: '16px',
+            color: '#666',
+            maxWidth: '400px',
+            margin: '0 auto'
+          }}>登录或注册账号以访问您的个人信息、订单和帖子</p>
+        </div>
+        
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '15px',
+          width: '100%',
+          maxWidth: '320px'
+        }}>
+          <button 
+            onClick={() => navigate('/login')}
+            style={{
+              backgroundColor: '#646cff',
+              color: 'white',
+              border: 'none',
+              padding: '14px 20px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 6px rgba(100, 108, 255, 0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+            onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            登录账号
+          </button>
+          
+          <button 
+            onClick={() => navigate('/register')}
+            style={{
+              backgroundColor: 'white',
+              color: '#646cff',
+              border: '2px solid #646cff',
+              padding: '12px 20px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f0f0ff'}
+            onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="20" y1="8" x2="20" y2="14"></line>
+              <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+            创建新账号
+          </button>
+        </div>
+        
+        <div style={{
+          marginTop: '40px',
+          padding: '20px',
+          backgroundColor: 'rgba(255, 255, 255, 0.7)',
+          borderRadius: '8px',
+          textAlign: 'center',
+          maxWidth: '400px'
+        }}>
+          <p style={{ fontSize: '14px', color: '#666', marginBottom: '10px' }}>
+            登录后即可享受以下功能：
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '15px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <span style={{ fontSize: '12px', color: '#666' }}>订单管理</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span style={{ fontSize: '12px', color: '#666' }}>社区互动</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 8v4"></path>
+                <path d="M12 16h.01"></path>
+              </svg>
+              <span style={{ fontSize: '12px', color: '#666' }}>个人设置</span>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 
@@ -171,6 +301,21 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
             }}>
               {showPosts ? '关闭帖子' : '我的帖子'}
             </button>
+            {currentUser && currentUser.id === 11 && (
+              <button 
+                onClick={() => navigate('/admin/goods')}
+                style={{
+                  backgroundColor: '#1890ff',
+                  color: 'white',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                管理盲盒
+              </button>
+            )}
           </div>
 
           {/* 订单列表 */}

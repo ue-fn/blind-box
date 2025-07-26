@@ -62,28 +62,130 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
   }
 
   return (
-    <form onSubmit={handleLogin} style={{ margin: '20px auto', width: '100%', maxWidth: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-      <h2>登录</h2>
-      <div>
-        <input
-          type="text"
-          placeholder="用户名"
-          value={formData.username}
-          onChange={e => setFormData({ ...formData, username: e.target.value })}
-          required
-        />
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      padding: '30px',
+      borderRadius: '12px',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+      margin: '40px auto',
+      width: '100%',
+      maxWidth: '380px'
+    }}>
+      <h2 style={{ 
+        color: '#646cff', 
+        marginBottom: '25px',
+        fontSize: '28px',
+        fontWeight: '600'
+      }}>欢迎回来</h2>
+      
+      <form onSubmit={handleLogin} style={{ 
+        width: '100%', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        gap: '20px' 
+      }}>
+        <div style={{ position: 'relative' }}>
+          <div style={{ 
+            position: 'absolute', 
+            left: '15px', 
+            top: '50%', 
+            transform: 'translateY(-50%)',
+            color: '#646cff'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <input
+            type="text"
+            placeholder="用户名"
+            value={formData.username}
+            onChange={e => setFormData({ ...formData, username: e.target.value })}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 12px 12px 45px',
+              borderRadius: '8px',
+              border: '1px solid #ddd',
+              fontSize: '16px',
+              outline: 'none',
+              transition: 'border-color 0.3s, box-shadow 0.3s',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+        
+        <div style={{ position: 'relative' }}>
+          <div style={{ 
+            position: 'absolute', 
+            left: '15px', 
+            top: '50%', 
+            transform: 'translateY(-50%)',
+            color: '#646cff'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <input
+            type="password"
+            placeholder="密码"
+            value={formData.password}
+            onChange={e => setFormData({ ...formData, password: e.target.value })}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 12px 12px 45px',
+              borderRadius: '8px',
+              border: '1px solid #ddd',
+              fontSize: '16px',
+              outline: 'none',
+              transition: 'border-color 0.3s, box-shadow 0.3s',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+        
+        <button 
+          type="submit"
+          style={{
+            backgroundColor: '#646cff',
+            color: 'white',
+            border: 'none',
+            padding: '12px',
+            borderRadius: '8px',
+            fontSize: '16px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s',
+            marginTop: '10px',
+            boxShadow: '0 4px 6px rgba(100, 108, 255, 0.2)'
+          }}
+        >
+          登录
+        </button>
+      </form>
+      
+      <div style={{ marginTop: '25px', color: '#666', fontSize: '14px' }}>
+        还没有账号？ 
+        <span 
+          onClick={() => navigate('/register')} 
+          style={{ 
+            color: '#646cff', 
+            cursor: 'pointer',
+            fontWeight: '500'
+          }}
+        >
+          立即注册
+        </span>
       </div>
-      <div>
-        <input
-          type="password"
-          placeholder="密码"
-          value={formData.password}
-          onChange={e => setFormData({ ...formData, password: e.target.value })}
-          required
-        />
-      </div>
-      <button type="submit">登录</button>
-    </form>
+    </div>
   )
 }
 

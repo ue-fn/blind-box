@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { avatarList } from '../constants'
 import NavButtons from './NavButtons'
-import Home from './Home'
 import Goods from './Goods'
 import Community from './Community'
 import Profile from './Profile'
@@ -52,11 +51,10 @@ function AppContent() {
 
   return (
     <>
-      <h1>盲盒抽奖机</h1>
+      <h1>盲盒抽奖机🪄</h1>
       <NavButtons />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/goods" element={<Goods />} />
+        <Route path="/" element={<Goods />} />
         <Route path="/community" element={<Community />} />
         <Route path="/profile" element={
           <Profile

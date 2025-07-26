@@ -95,52 +95,181 @@ function Register({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) 
   }
   
   return (
-    <form onSubmit={handleRegister} style={{ margin: '20px auto', width: '100%', maxWidth: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-      <h2>注册</h2>
-      <div style={{ display: 'flex', gap: 10, margin: '10px 0' }}>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      padding: '30px',
+      borderRadius: '12px',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+      margin: '40px auto',
+      width: '100%',
+      maxWidth: '380px'
+    }}>
+      <h2 style={{ 
+        color: '#646cff', 
+        marginBottom: '20px',
+        fontSize: '28px',
+        fontWeight: '600'
+      }}>创建账号</h2>
+      
+      <p style={{ 
+        color: '#666', 
+        marginBottom: '20px',
+        fontSize: '15px'
+      }}>选择一个喜欢的头像</p>
+      
+      <div style={{ 
+        display: 'flex', 
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '15px', 
+        margin: '0 0 25px 0' 
+      }}>
         {avatarList.map((img, idx) => (
-          <img
-            key={idx}
-            src={img}
-            alt={`头像${idx + 1}`}
+          <div 
+            key={idx} 
             style={{
-              width: 50,
-              height: 50,
-              border: avatar === img ? '2px solid #646cff' : '2px solid transparent',
+              position: 'relative',
+              width: '60px',
+              height: '60px',
               borderRadius: '50%',
-              cursor: 'pointer'
+              padding: '3px',
+              background: avatar === img ? 'linear-gradient(45deg, #646cff, #a5a9ff)' : 'transparent',
+              transition: 'all 0.3s ease'
             }}
-            onClick={() => {
-              setAvatar(img.toString());
-              setFormData({ ...formData, avatar: img.toString() })
-            }}
-          />
+          >
+            <img
+              src={img}
+              alt={`头像${idx + 1}`}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                border: '2px solid white',
+                boxSizing: 'border-box',
+                transition: 'transform 0.2s ease'
+              }}
+              onClick={() => {
+                setAvatar(img.toString());
+                setFormData({ ...formData, avatar: img.toString() })
+              }}
+            />
+          </div>
         ))}
       </div>
-      <div>
-        <input
-          type="text"
-          placeholder="用户名"
-          value={formData.username}
-          onChange={e => {
-            setFormData({ ...formData, username: e.target.value })
+      
+      <form onSubmit={handleRegister} style={{ 
+        width: '100%', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        gap: '20px' 
+      }}>
+        <div style={{ position: 'relative' }}>
+          <div style={{ 
+            position: 'absolute', 
+            left: '15px', 
+            top: '50%', 
+            transform: 'translateY(-50%)',
+            color: '#646cff'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <input
+            type="text"
+            placeholder="用户名 (3-20个字符)"
+            value={formData.username}
+            onChange={e => {
+              setFormData({ ...formData, username: e.target.value })
+            }}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 12px 12px 45px',
+              borderRadius: '8px',
+              border: '1px solid #ddd',
+              fontSize: '16px',
+              outline: 'none',
+              transition: 'border-color 0.3s, box-shadow 0.3s',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+        
+        <div style={{ position: 'relative' }}>
+          <div style={{ 
+            position: 'absolute', 
+            left: '15px', 
+            top: '50%', 
+            transform: 'translateY(-50%)',
+            color: '#646cff'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <input
+            type="password"
+            placeholder="密码 (至少6个字符)"
+            value={formData.password}
+            onChange={e => {
+              setFormData({ ...formData, password: e.target.value })
+            }}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 12px 12px 45px',
+              borderRadius: '8px',
+              border: '1px solid #ddd',
+              fontSize: '16px',
+              outline: 'none',
+              transition: 'border-color 0.3s, box-shadow 0.3s',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+        
+        <button 
+          type="submit"
+          style={{
+            backgroundColor: '#646cff',
+            color: 'white',
+            border: 'none',
+            padding: '12px',
+            borderRadius: '8px',
+            fontSize: '16px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s',
+            marginTop: '10px',
+            boxShadow: '0 4px 6px rgba(100, 108, 255, 0.2)'
           }}
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="密码"
-          value={formData.password}
-          onChange={e => {
-            setFormData({ ...formData, password: e.target.value })
+        >
+          注册
+        </button>
+      </form>
+      
+      <div style={{ marginTop: '25px', color: '#666', fontSize: '14px' }}>
+        已有账号？ 
+        <span 
+          onClick={() => navigate('/login')} 
+          style={{ 
+            color: '#646cff', 
+            cursor: 'pointer',
+            fontWeight: '500'
           }}
-          required
-        />
+        >
+          立即登录
+        </span>
       </div>
-      <button type="submit">注册</button>
-    </form>
+    </div>
   )
 }
 

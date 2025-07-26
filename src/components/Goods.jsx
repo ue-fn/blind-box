@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from '../utils/axios'
+import './Goods.css' // 引入商品组件样式
 
 /**
  * 商品组件
@@ -82,15 +83,18 @@ function Goods() {
   )
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="goods-container">
       {/* 搜索栏 */}
-      <input
-        type="text"
-        placeholder="搜索商品"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        style={{ width: 300, padding: 8, marginBottom: 20 }}
-      />
+      <div className="search-container">
+        <span className="search-icon">🔍</span>
+        <input
+          type="text"
+          placeholder="搜索您喜欢的盲盒..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="search-input"
+        />
+      </div>
 
       {/* 商品列表 */}
       <div className="goods-list">

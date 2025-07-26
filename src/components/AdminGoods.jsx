@@ -72,47 +72,40 @@ function AdminGoods({ isAdmin }) {
     try {
       setLoading(true)
 
-      // 如果是编辑模式，先删除旧盲盒再创建新盲盒
+      let url = 'http://localhost:7001/blind-box';
+      let method = 'POST';
+      
+      // 如果是编辑模式，使用PUT请求更新盲盒
       if (modalType === 'edit' && formData.id) {
-        // 先删除旧盲盒
-        const deleteResponse = await fetch(`http://localhost:7001/blind-box/delete/${formData.id}`, {
-          method: 'Post'
-        })
-        const deleteData = await deleteResponse.json()
-        if (!deleteData.success) {
-          alert(deleteData.message || '删除旧盲盒失败')
-          return
-        }
-        console.log('删除旧盲盒成功，准备创建新盲盒')
-
-        // 删除id字段，避免创建时传入id
-        delete formData.id
+        url = `http://localhost:7001/blind-box/${formData.id}`;
+        method = 'PUT';
+        console.log('更新盲盒:', formData.id);
       }
 
-      // 将formData转换为JSON格式发送创建新盲盒
-      console.log('发送的数据:', JSON.stringify(formData))
-      const response = await fetch('http://localhost:7001/blind-box', {
-        method: 'POST',
+      // 将formData转换为JSON格式发送
+      console.log('发送的数据:', JSON.stringify(formData));
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
       if (data.success) {
-        alert(modalType === 'add' ? '添加成功' : '更新成功')
-        fetchBlindBoxes() // 重新获取列表
+        alert(modalType === 'add' ? '添加成功' : '更新成功');
+        fetchBlindBoxes(); // 重新获取列表
       } else {
-        alert(data.message || (modalType === 'add' ? '添加失败' : '更新失败'))
+        alert(data.message || (modalType === 'add' ? '添加失败' : '更新失败'));
       }
     } catch (error) {
-      console.error('保存盲盒失败:', error)
-      alert('操作失败，请稍后重试')
+      console.error('保存盲盒失败:', error);
+      alert('操作失败，请稍后重试');
     } finally {
-      setLoading(false)
-      setModalType(null)
-      setEditGood(null)
+      setLoading(false);
+      setModalType(null);
+      setEditGood(null);
     }
   }
 
