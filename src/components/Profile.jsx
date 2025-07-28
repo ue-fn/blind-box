@@ -76,6 +76,35 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
     }
   }
 
+  // 更新订单状态
+  const handleUpdateOrderStatus = async (orderId, status) => {
+    try {
+      const response = await fetch('http://localhost:7001/blind-box/updateOrderStatus', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          orderId,
+          status
+        })
+      })
+      const data = await response.json()
+      if (data.success) {
+        // 更新本地订单状态
+        setOrders(orders => orders.map(order =>
+          order.id === orderId ? { ...order, status } : order
+        ))
+        alert('订单状态更新成功')
+      } else {
+        alert(data.message || '更新订单状态失败')
+      }
+    } catch (error) {
+      console.error('更新订单状态失败:', error)
+      alert('更新订单状态失败，请稍后重试')
+    }
+  }
+
   // 删除帖子
   const handleDeletePost = async (postId) => {
     try {
@@ -135,7 +164,7 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
         justifyContent: 'center',
         padding: '40px 20px',
         minHeight: '60vh',
-        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        background: '#ffffff',
         borderRadius: '12px',
         margin: '20px auto',
         maxWidth: '800px',
@@ -158,7 +187,7 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
             margin: '0 auto'
           }}>登录或注册账号以访问您的个人信息、订单和帖子</p>
         </div>
-        
+
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -166,7 +195,7 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
           width: '100%',
           maxWidth: '320px'
         }}>
-          <button 
+          <button
             onClick={() => navigate('/login')}
             style={{
               backgroundColor: '#646cff',
@@ -194,8 +223,8 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
             </svg>
             登录账号
           </button>
-          
-          <button 
+
+          <button
             onClick={() => navigate('/register')}
             style={{
               backgroundColor: 'white',
@@ -224,11 +253,12 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
             创建新账号
           </button>
         </div>
-        
+
         <div style={{
           marginTop: '40px',
           padding: '20px',
-          backgroundColor: 'rgba(255, 255, 255, 0.7)',
+          backgroundColor: '#f0f2ff',
+          border: '2px solid #646cff',
           borderRadius: '8px',
           textAlign: 'center',
           maxWidth: '400px'
@@ -251,14 +281,7 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
               </svg>
               <span style={{ fontSize: '12px', color: '#666' }}>社区互动</span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#646cff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 8v4"></path>
-                <path d="M12 16h.01"></path>
-              </svg>
-              <span style={{ fontSize: '12px', color: '#666' }}>个人设置</span>
-            </div>
+
           </div>
         </div>
       </div>
@@ -291,7 +314,7 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
             }}>
               {showOrders ? '关闭订单' : '我的订单'}
             </button>
-            <button>我的消息</button>
+
             <button onClick={() => {
               setShowPosts(!showPosts)
               setShowOrders(false)
@@ -302,19 +325,34 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
               {showPosts ? '关闭帖子' : '我的帖子'}
             </button>
             {currentUser && currentUser.id === 11 && (
-              <button 
-                onClick={() => navigate('/admin/goods')}
-                style={{
-                  backgroundColor: '#1890ff',
-                  color: 'white',
-                  border: 'none',
-                  padding: '8px 16px',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}
-              >
-                管理盲盒
-              </button>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  onClick={() => navigate('/admin/goods')}
+                  style={{
+                    backgroundColor: '#1890ff',
+                    color: 'white',
+                    border: 'none',
+                    padding: '8px 16px',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  管理盲盒
+                </button>
+                <button
+                  onClick={() => navigate('/admin/orders')}
+                  style={{
+                    backgroundColor: '#ff9800',
+                    color: 'white',
+                    border: 'none',
+                    padding: '8px 16px',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  管理订单
+                </button>
+              </div>
             )}
           </div>
 
@@ -348,32 +386,62 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
                           <h4 style={{ margin: '0 0 12px 0', fontSize: '18px' }}>{order.box.name}</h4>
                           <p style={{ margin: '0 0 8px 0', fontSize: '16px' }}>抽中物品：{order.item.name}</p>
                           <p style={{ margin: '0 0 8px 0', fontSize: '16px', color: '#ff4d4f' }}>价格：￥{order.box.price}</p>
-                          <p style={{ margin: '0', color: '#666' }}>
+                          <p style={{ margin: '0 0 8px 0', color: '#666' }}>
                             购买时间：{new Date(order.purchaseTime).toLocaleString()}
+                          </p>
+                          <p style={{
+                            margin: '0',
+                            fontWeight: 'bold',
+                            color: order.status === 0 ? '#ff9800' :
+                              order.status === 1 ? '#2196f3' :
+                                order.status === 2 ? '#4caf50' : '#666'
+                          }}>
+                            订单状态：{order.status === 0 ? '未发货' :
+                              order.status === 1 ? '待收货' :
+                                order.status === 2 ? '已完成' : '未知状态'}
                           </p>
                         </div>
                       </div>
-                      <button
-                        onClick={() => {
-                          if (confirm('确定要删除这个订单吗？')) {
-                            handleDeleteOrder(order.id)
-                          }
-                        }}
-                        style={{
-                          position: 'absolute',
-                          bottom: '10px',
-                          right: '10px',
-                          backgroundColor: '#ff4d4f',
-                          color: 'white',
-                          border: 'none',
-                          padding: '6px 12px',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          fontSize: '14px'
-                        }}
-                      >
-                        删除订单
-                      </button>
+                      <div style={{ position: 'absolute', bottom: '10px', right: '10px', display: 'flex', gap: '10px' }}>
+                        {/* 管理员可以更新订单状态 */}
+                        {currentUser && currentUser.id === 11 && (
+                          <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
+                            <select
+                              value={order.status !== undefined ? order.status : 0}
+                              onChange={(e) => handleUpdateOrderStatus(order.id, Number(e.target.value))}
+                              style={{
+                                padding: '6px 10px',
+                                borderRadius: '4px',
+                                border: '1px solid #d9d9d9',
+                                backgroundColor: '#fff',
+                                fontSize: '14px'
+                              }}
+                            >
+                              <option value="0">未发货</option>
+                              <option value="1">待收货</option>
+                              <option value="2">已完成</option>
+                            </select>
+                          </div>
+                        )}
+                        <button
+                          onClick={() => {
+                            if (confirm('确定要删除这个订单吗？')) {
+                              handleDeleteOrder(order.id)
+                            }
+                          }}
+                          style={{
+                            backgroundColor: '#ff4d4f',
+                            color: 'white',
+                            border: 'none',
+                            padding: '6px 12px',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontSize: '14px'
+                          }}
+                        >
+                          删除订单
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -423,7 +491,7 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
                             <svg style={{ width: '20px', height: '20px' }} fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                             </svg>
-                            <span>{post.likes || 0}</span>
+                            <span>{post.likeCount || 0}</span>
                           </div>
                         </div>
                       </div>

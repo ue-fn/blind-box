@@ -1,0 +1,174 @@
+/* BestSellers.css */
+/* 热销榜页面样式 */
+
+.bestsellers-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.bestsellers-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.bestsellers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bestseller-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.bestseller-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bestseller-rank {
+  font-size: 24px;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+/* 前三名特殊样式 */
+.bestseller-item:nth-child(1) .bestseller-rank {
+  background-color: gold;
+  color: #333;
+}
+
+.bestseller-item:nth-child(2) .bestseller-rank {
+  background-color: silver;
+  color: #333;
+}
+
+.bestseller-item:nth-child(3) .bestseller-rank {
+  background-color: #cd7f32; /* 铜色 */
+  color: white;
+}
+
+.bestseller-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.bestseller-info {
+  flex: 1;
+}
+
+.bestseller-name {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.bestseller-price {
+  color: #e53935;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.bestseller-sales {
+  color: #666;
+  font-size: 14px;
+}
+
+/* 加载状态 */
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+/* 复用Goods.css中的弹窗样式 */
+.goods-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.goods-modal {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #666;
+}
+
+.result-modal {
+  background-color: #f8f9fa;
+  border: 2px solid #646cff;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .bestseller-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .bestseller-rank {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bestseller-item {
+    padding: 10px;
+  }
+  
+  .bestseller-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .bestseller-name {
+    font-size: 16px;
+  }
+}

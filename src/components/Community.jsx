@@ -301,7 +301,7 @@ function Community() {
                       src={`http://localhost:7001${post.image}`}
                       alt="帖子图片"
                       className="post-image"
-                      onClick={() => window.open(post.image, '_blank')}
+                      onClick={() => window.open(`http://localhost:7001${post.image}`, '_blank')}
                     />
                   </div>
                 )}

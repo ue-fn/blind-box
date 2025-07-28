@@ -20,3 +20,10 @@ export const goodsList = [
   { id: 4, name: '通行证31.0', price: 25, img: txz31, stock: 100, desc: '通行证31.0' },
   { id: 5, name: '通行证遗君', price: 25, img: txzyj, stock: 100, desc: '通行证遗君' },
 ]
+
+// 订单状态映射
+export const OrderStatusMap = {
+  0: '未发货',
+  1: '待收货',
+  2: '已完成'
+}

@@ -42,7 +42,25 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
         setCurrentAvatar(data.user.avatar)
         // 保存用户ID到localStorage
         localStorage.setItem('userId', data.user.id)
-        alert(`登录成功，欢迎：${data.user.username}`)
+        // 使用带蓝色边框的提示替代alert
+        const successMessage = document.createElement('div');
+        successMessage.style.padding = '10px';
+        successMessage.style.border = '2px solid #646cff';
+        successMessage.style.borderRadius = '5px';
+        successMessage.style.backgroundColor = '#f0f2ff';
+        successMessage.style.color = '#333';
+        successMessage.style.position = 'fixed';
+        successMessage.style.top = '20px';
+        successMessage.style.left = '50%';
+        successMessage.style.transform = 'translateX(-50%)';
+        successMessage.style.zIndex = '1000';
+        successMessage.textContent = `登录成功，欢迎：${data.user.username}`;
+        document.body.appendChild(successMessage);
+        
+        // 3秒后移除提示
+        setTimeout(() => {
+          document.body.removeChild(successMessage);
+        }, 3000);
         navigate('/profile')
       } else {
         alert(data.message)
@@ -69,7 +87,7 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
       justifyContent: 'center',
       padding: '30px',
       borderRadius: '12px',
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      backgroundColor: '#ffffff',
       boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
       margin: '40px auto',
       width: '100%',

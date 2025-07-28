@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import GoodEditModal from './GoodEditModal'
 import '../App.css' // 引入全局样式
 import './AdminGoods.css' // 引入组件样式
@@ -10,16 +11,21 @@ import './AdminGoods.css' // 引入组件样式
  * @returns {JSX.Element} 商品管理界面
  */
 function AdminGoods({ isAdmin }) {
+  const navigate = useNavigate()
   const [goods, setGoods] = useState([])
   const [modalType, setModalType] = useState(null) // 'add' or 'edit'
   const [editGood, setEditGood] = useState(null)
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
 
-  // 获取盲盒列表
+  // 在组件挂载时检查是否是管理员
   useEffect(() => {
-    fetchBlindBoxes()
-  }, [])
+    if (parseInt(localStorage.getItem('userId')) !== 11) {
+      navigate('/')
+    } else {
+      fetchBlindBoxes()
+    }
+  }, [navigate])
 
   const fetchBlindBoxes = async () => {
     try {
@@ -35,7 +41,8 @@ function AdminGoods({ isAdmin }) {
     }
   }
 
-  if (!isAdmin) return <div>无权限</div>
+  // 权限检查已经在useEffect中处理，这里不再需要额外的检查
+  // if (!isAdmin) return <div>无权限</div>
 
   // 删除盲盒
   const handleDelete = async (id) => {
