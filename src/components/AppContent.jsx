@@ -10,6 +10,7 @@ import Login from './Login'
 import Register from './Register'
 import AdminGoods from './AdminGoods'
 import AdminOrders from './AdminOrders'
+import AdminUsers from './AdminUsers'
 
 /**
  * 应用主内容组件
@@ -91,6 +92,7 @@ function AppContent() {
         {/*路由注册*/}
         <Route path="/admin/goods" element={<AdminGoods isAdmin={isAdmin} />} />
         <Route path="/admin/orders" element={<AdminOrders isAdmin={isAdmin} />} />
+        <Route path="/admin/users" element={<AdminUsers isAdmin={isAdmin} />} />
       </Routes>
     </>
   )

@@ -352,6 +352,19 @@ function Profile({ isLogin, currentAvatar, currentUser, onLogout }) {
                 >
                   管理订单
                 </button>
+                <button
+                  onClick={() => navigate('/admin/users')}
+                  style={{
+                    backgroundColor: '#722ed1',
+                    color: 'white',
+                    border: 'none',
+                    padding: '8px 16px',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  管理用户
+                </button>
               </div>
             )}
           </div>

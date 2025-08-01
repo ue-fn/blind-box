@@ -112,6 +112,7 @@ function BestSellers() {
               <div className="bestseller-name">{item.name}</div>
               <div className="bestseller-price">￥{item.price}</div>
               <div className="bestseller-sales">销量: {item.salesCount}</div>
+              <div className="bestseller-stock">库存: {item.stock}</div>
             </div>
           </div>
         ))}
