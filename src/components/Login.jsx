@@ -56,7 +56,7 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
         successMessage.style.zIndex = '1000';
         successMessage.textContent = `登录成功，欢迎：${data.user.username}`;
         document.body.appendChild(successMessage);
-        
+
         // 3秒后移除提示
         setTimeout(() => {
           document.body.removeChild(successMessage);
@@ -80,10 +80,10 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
   }
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
       justifyContent: 'center',
       padding: '30px',
       borderRadius: '12px',
@@ -93,24 +93,24 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
       width: '100%',
       maxWidth: '380px'
     }}>
-      <h2 style={{ 
-        color: '#646cff', 
+      <h2 style={{
+        color: '#646cff',
         marginBottom: '25px',
         fontSize: '28px',
         fontWeight: '600'
       }}>欢迎回来</h2>
-      
-      <form onSubmit={handleLogin} style={{ 
-        width: '100%', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '20px' 
+
+      <form onSubmit={handleLogin} style={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px'
       }}>
         <div style={{ position: 'relative' }}>
-          <div style={{ 
-            position: 'absolute', 
-            left: '15px', 
-            top: '50%', 
+          <div style={{
+            position: 'absolute',
+            left: '15px',
+            top: '50%',
             transform: 'translateY(-50%)',
             color: '#646cff'
           }}>
@@ -137,12 +137,12 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
             }}
           />
         </div>
-        
+
         <div style={{ position: 'relative' }}>
-          <div style={{ 
-            position: 'absolute', 
-            left: '15px', 
-            top: '50%', 
+          <div style={{
+            position: 'absolute',
+            left: '15px',
+            top: '50%',
             transform: 'translateY(-50%)',
             color: '#646cff'
           }}>
@@ -169,8 +169,8 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
             }}
           />
         </div>
-        
-        <button 
+
+        <button
           type="submit"
           style={{
             backgroundColor: '#646cff',
@@ -189,13 +189,13 @@ function Login({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) {
           登录
         </button>
       </form>
-      
+
       <div style={{ marginTop: '25px', color: '#666', fontSize: '14px' }}>
-        还没有账号？ 
-        <span 
-          onClick={() => navigate('/register')} 
-          style={{ 
-            color: '#646cff', 
+        还没有账号？
+        <span
+          onClick={() => navigate('/register')}
+          style={{
+            color: '#646cff',
             cursor: 'pointer',
             fontWeight: '500'
           }}

@@ -15,9 +15,11 @@ function Register({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) 
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+    confirmPassword: '',
     avatar: avatarList[0] // 默认头像
   })
   const [avatar, setAvatar] = useState(avatarList[0].toString()) // 默认头像，确保是字符串
+  const [usernameError, setUsernameError] = useState('') // 用户名错误信息
   
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -37,6 +39,14 @@ function Register({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) 
     }
     if (formData.password.length < 6) {
       alert('密码长度不能少于6个字符')
+      return
+    }
+    if (!formData.confirmPassword) {
+      alert('请再次输入密码')
+      return
+    }
+    if (formData.password !== formData.confirmPassword) {
+      alert('两次输入的密码不一致')
       return
     }
 
@@ -106,7 +116,13 @@ function Register({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) 
           navigate('/login');
         }
       } else {
-        alert(data.message || '注册失败');
+        // 检查是否是用户名重复的错误
+        if (data.data === false) {
+          setUsernameError('用户名重复');
+          alert('用户名重复');
+        } else {
+          alert(data.message || '注册失败');
+        }
       }
     } catch (error) {
       console.error('注册错误:', error);
@@ -207,19 +223,25 @@ function Register({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) 
             value={formData.username}
             onChange={e => {
               setFormData({ ...formData, username: e.target.value })
+              setUsernameError('') // 清除错误信息
             }}
             required
             style={{
               width: '100%',
               padding: '12px 12px 12px 45px',
               borderRadius: '8px',
-              border: '1px solid #ddd',
+              border: usernameError ? '1px solid #ff4d4f' : '1px solid #ddd',
               fontSize: '16px',
               outline: 'none',
               transition: 'border-color 0.3s, box-shadow 0.3s',
               boxSizing: 'border-box'
             }}
           />
+          {usernameError && (
+            <div style={{ color: '#ff4d4f', fontSize: '12px', marginTop: '4px', paddingLeft: '45px' }}>
+              {usernameError}
+            </div>
+          )}
         </div>
         
         <div style={{ position: 'relative' }}>
@@ -254,6 +276,45 @@ function Register({ setIsLogin, setCurrentUser, setCurrentAvatar, avatarList }) 
               boxSizing: 'border-box'
             }}
           />
+        </div>
+        
+        <div style={{ position: 'relative' }}>
+          <div style={{ 
+            position: 'absolute', 
+            left: '15px', 
+            top: '50%', 
+            transform: 'translateY(-50%)',
+            color: '#646cff'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <input
+            type="password"
+            placeholder="确认密码"
+            value={formData.confirmPassword}
+            onChange={e => {
+              setFormData({ ...formData, confirmPassword: e.target.value })
+            }}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 12px 12px 45px',
+              borderRadius: '8px',
+              border: formData.confirmPassword && formData.password !== formData.confirmPassword ? '1px solid #ff4d4f' : '1px solid #ddd',
+              fontSize: '16px',
+              outline: 'none',
+              transition: 'border-color 0.3s, box-shadow 0.3s',
+              boxSizing: 'border-box'
+            }}
+          />
+          {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+            <div style={{ color: '#ff4d4f', fontSize: '12px', marginTop: '4px', paddingLeft: '45px' }}>
+              两次输入的密码不一致
+            </div>
+          )}
         </div>
         
         <button 
